@@ -6,11 +6,9 @@ import yaml
 
 # https://developers.band.us/develop/guide/api
 class BandOpenApi:
-    def __init__(self):
+    def __init__(self, your_token):
         print('init')
-        with open('config.yaml') as f:
-            config = yaml.load(f, Loader=yaml.FullLoader)
-            self.access_token = config['accessToken']
+        self.access_token=your_token
 
     def _api_call(self, api_path: str, params: dict = None, method: str = 'get') -> dict:
         if params is None:
@@ -79,3 +77,9 @@ class BandOpenApi:
 
     def get_profile(self) -> dict:
         return self._api_call('/v2/profile')
+    
+    def get_nextpage(self, type, next_params):
+        return self._api_call(f'/v2.1/band/{type}', params=next_params)
+    
+    def get_nextpage(self, type, next_params, vers):
+        return self._api_call(f'/{vers}/band/{type}', params=next_params)
